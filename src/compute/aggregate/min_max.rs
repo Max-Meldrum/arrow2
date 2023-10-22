@@ -33,7 +33,8 @@ pub trait SimdOrd<T> {
 }
 
 #[multiversion(targets = "simd")]
-fn nonnull_min_primitive<T>(values: &[T]) -> T
+/// Compute the min of a slice
+pub fn min_slice<T>(values: &[T]) -> T
 where
     T: NativeType + Simd,
     T::Simd: SimdOrd<T>,
@@ -114,7 +115,8 @@ where
 }
 
 #[multiversion(targets = "simd")]
-fn nonnull_max_primitive<T>(values: &[T]) -> T
+/// Compute the max of a slice
+pub fn max_slice<T>(values: &[T]) -> T
 where
     T: NativeType + Simd,
     T::Simd: SimdOrd<T>,
@@ -178,7 +180,7 @@ where
     Some(if let Some(validity) = array.validity() {
         null_min_primitive(values, validity)
     } else {
-        nonnull_min_primitive(values)
+        min_slice(values)
     })
 }
 
@@ -200,7 +202,7 @@ where
     Some(if let Some(validity) = array.validity() {
         null_max_primitive(values, validity)
     } else {
-        nonnull_max_primitive(values)
+        max_slice(values)
     })
 }
 
